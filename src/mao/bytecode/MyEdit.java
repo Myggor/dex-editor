@@ -18,6 +18,9 @@ import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
+import android.view.inputmethod.CorrectionInfo;
+import android.view.inputmethod.InputContentInfo;
+import android.os.Handler;
 
 public class MyEdit extends EditText{
     public static final String TAG="MyEdit";
@@ -119,6 +122,62 @@ public class MyEdit extends EditText{
     public InputConnection onCreateInputConnection(EditorInfo edit){
         final InputConnection  ic=super.onCreateInputConnection(edit);
         return new InputConnection(){
+
+			@Override
+			public CharSequence getSelectedText(int p1)
+			{
+				// TODO: Implement this method
+				return null;
+			}
+
+			@Override
+			public boolean deleteSurroundingTextInCodePoints(int p1, int p2)
+			{
+				// TODO: Implement this method
+				return false;
+			}
+
+			@Override
+			public boolean setComposingRegion(int p1, int p2)
+			{
+				// TODO: Implement this method
+				return false;
+			}
+
+			@Override
+			public boolean commitCorrection(CorrectionInfo p1)
+			{
+				// TODO: Implement this method
+				return false;
+			}
+
+			@Override
+			public boolean requestCursorUpdates(int p1)
+			{
+				// TODO: Implement this method
+				return false;
+			}
+
+			@Override
+			public Handler getHandler()
+			{
+				// TODO: Implement this method
+				return null;
+			}
+
+			@Override
+			public void closeConnection()
+			{
+				// TODO: Implement this method
+			}
+
+			@Override
+			public boolean commitContent(InputContentInfo p1, int p2, Bundle p3)
+			{
+				// TODO: Implement this method
+				return false;
+			}
+
             public boolean beginBatchEdit() {
                 Log.w(TAG, "beginBatchEdit");
                 return ic.beginBatchEdit();

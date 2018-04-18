@@ -79,6 +79,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Build;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 
 
 public class FileBrowser extends ListActivity {
@@ -767,12 +770,13 @@ public class FileBrowser extends ListActivity {
             setPermBit(perms, 2, R.id.ckOthRead);
             setPermBit(perms, 1, R.id.ckOthWrite);
             setPermBit(perms, 0, R.id.ckOthExec);
-            /*
+       /*     
                TextView v = (TextView) mPermissionDialog.findViewById(R.id.permInfo);
                Date date = new Date(mCurrent.lastModified());
                v.setText(mCurrent.getParent() + "\nSize=" + mCurrent.length() + "\nModified=" + date);
-               */
+       */
             mPermissionDialog.show();
+		
         } catch (Exception e) {
             showMessage(this,"Permission Exception",e.getMessage());
         }
@@ -1128,9 +1132,11 @@ public class FileBrowser extends ListActivity {
        */
 
     private Drawable showApkIcon(String apkPath) {
-        String PATH_PackageParser ="android.content.pm.PackageParser";
-        String PATH_AssetManager ="android.content.res.AssetManager";
+		
+        //String PATH_PackageParser ="android.content.pm.PackageParser";
+        //String PATH_AssetManager ="android.content.res.AssetManager";
         try{
+			/*
             Class pkgParserCls = Class.forName(PATH_PackageParser);
             Class[] typeArgs =new Class[1];
             typeArgs[0] = String.class;
@@ -1181,6 +1187,18 @@ public class FileBrowser extends ListActivity {
             if(info.icon !=0) {
                 return res.getDrawable(info.icon);
             }
+			*/
+			String filePath = apkPath;
+			PackageInfo packageInfo = getPackageManager().getPackageArchiveInfo(filePath, PackageManager.GET_ACTIVITIES);
+			if(packageInfo != null) {
+				ApplicationInfo appInfo = packageInfo.applicationInfo;
+				if (Build.VERSION.SDK_INT >= 8) {
+					appInfo.sourceDir = filePath;
+					appInfo.publicSourceDir = filePath;
+				}
+				Drawable icon = appInfo.loadIcon(getPackageManager());
+				return icon;
+			}
         }catch(Exception e){}
         return getResources().getDrawable(R.drawable.android);
     }

@@ -1021,7 +1021,8 @@ public class ZipEditor extends ListActivity {
                 ZipEntry zipEntry=zipFile.getEntry(key);
                 if(zipEntry != null){
                     InputStream in=zipFile.getInputStream(zipEntry);
-                    zos.putNextEntry(zipEntry);
+					zos.putNextEntry(new ZipEntry(zipEntry.getName()));
+                    //zos.putNextEntry(zipEntry);
                     int count;
                     while((count=in.read(buf, 0, buf.length)) !=-1)
                         zos.write(buf,0,count);
